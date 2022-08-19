@@ -1,11 +1,10 @@
 import requests
 import json
 
-    # problems:
-    # anilistName = input("Enter your AniList username: ")
-    # anilistType = "ANIME"
-    # anilistStatus = "COMPLETED"
-    # would like list to use 3 variables for the MediaListCollection query instead of hardcoding
+    # to-do-list:
+    # variables for type and status, not needed for now
+    # sort list alphabetically or by highest anilist rating?
+    # if 404 error on username, return error and reprompt
 
 def main():
     #-------------------------------------------------------------------------------------------#
@@ -37,7 +36,6 @@ def main():
         test_data_types(response)
     else:
         raise Exception(f"Error: {response.status_code}")
-    #-------------------------------------------------------------------------------------------#
 
 def test_data_types(response):
     if response.status_code == 200:
@@ -62,7 +60,7 @@ def test_data_types(response):
                 else:
                     animeTitle = entry["media"]["title"]["romaji"]
                     userAnimeList.append(animeTitle)
-        for i in userAnimeList:
+        for i in sorted(userAnimeList, key=str.casefold):
             print(i)
     else:
         raise Exception(f"Error: {response.status_code}")
