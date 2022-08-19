@@ -1,5 +1,6 @@
 import requests
 import json
+import random
 
     # to-do-list:
     # variables for type and status, not needed for now
@@ -38,9 +39,11 @@ def main():
         raise Exception(f"Error: {response.status_code}")
 
 def test_data_types(response):
+
+    userAnimeList = []
+
     if response.status_code == 200:
 
-        userAnimeList = []
         animeListJson = json.dumps(response.json())
         animeList = json.loads(animeListJson)
         animeListData = animeList["data"]["MediaListCollection"]["lists"]
@@ -60,10 +63,29 @@ def test_data_types(response):
                 else:
                     animeTitle = entry["media"]["title"]["romaji"]
                     userAnimeList.append(animeTitle)
-        for i in sorted(userAnimeList, key=str.casefold):
-            print(i)
+        # for i in sorted(userAnimeList, key=str.casefold):
+        #     print(i)
     else:
         raise Exception(f"Error: {response.status_code}")
 
+    # -------------------------------------------------------------------
+    random.shuffle(animeList)
+
+    n = len(userAnimeList)
+    print(n)
+    for i in range(n-1):
+        for j in range(0, (n - i - 1)):
+            message = userAnimeList[j] + " or " + userAnimeList[j + 1] + "\n"
+            # userChoice = input(message).upper()
+            userChoice = random.randint(0, 1)
+            if userChoice == 0:
+                userAnimeList[j], userAnimeList[j + 1] = userAnimeList[j + 1], userAnimeList[j]
+            elif userChoice == 1:
+                pass
+    # show top anime at the top rather than bottom
+    userAnimeList.reverse()
+    for i in range(len(userAnimeList)):
+        print(userAnimeList[i])
+    
 if __name__ == "__main__":
     main()
