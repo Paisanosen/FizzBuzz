@@ -2,7 +2,6 @@ import requests
 import json
 
     # problems:
-    # cannot pass userinput variable into the query
     # anilistName = input("Enter your AniList username: ")
     # anilistType = "ANIME"
     # anilistStatus = "COMPLETED"
@@ -10,9 +9,10 @@ import json
 
 def main():
     #-------------------------------------------------------------------------------------------#
+    anilistUsername = input("Enter your AniList username: ")
     query = """
-    query {
-    MediaListCollection(userName: "Meltiply", type: ANIME, status: COMPLETED) {
+    query($userName: String) {
+    MediaListCollection(userName: $userName, type: ANIME, status: COMPLETED) {
         lists {
             entries {
             media {
@@ -27,7 +27,7 @@ def main():
     }
     """
     variables = {
-        "userName": "Meltiply",
+        "userName": anilistUsername,
         "type": "ANIME",
         "status": "COMPLETED"
     }
@@ -41,14 +41,17 @@ def main():
 
 def test_data_types(response):
     if response.status_code == 200:
+
         userAnimeList = []
-        print(type(response)) # requests.models.Response
         animeListJson = json.dumps(response.json())
-        print(type(animeListJson)) # str
         animeList = json.loads(animeListJson)
-        print(type(animeList)) # dict
         animeListData = animeList["data"]["MediaListCollection"]["lists"]
-        print(type(animeListData))
+        
+        # print(type(response)) # requests.models.Response
+        # print(type(animeListJson)) # str
+        # print(type(animeList)) # dict
+        # print(type(animeListData))
+
         for data in animeListData:
             entries = data["entries"]
             # if English exists, add the English title, else add the romaji title
