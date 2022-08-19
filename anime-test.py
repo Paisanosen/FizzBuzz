@@ -51,6 +51,7 @@ def test_data_types(response):
         print(type(animeListData))
         for data in animeListData:
             entries = data["entries"]
+            # if English exists, add the English title, else add the romaji title
             for entry in entries:
                 if entry["media"]["title"]["english"] != None:
                     animeTitle = entry["media"]["title"]["english"]
