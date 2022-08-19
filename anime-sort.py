@@ -8,8 +8,8 @@ def main():
     print(n)
     for i in range(n-1):
         for j in range(0, (n - i - 1)):
-            print(animeList[j] + " or " + animeList[j + 1])
-            userChoice = input()
+            message = animeList[j] + " or " + animeList[j + 1] + "\n"
+            userChoice = input(message).upper()
             if userChoice == "L":
                 animeList[j], animeList[j + 1] = animeList[j + 1], animeList[j]
             elif userChoice == "R":
