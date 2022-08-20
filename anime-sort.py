@@ -1,23 +1,67 @@
-import random
+# arr = temp array
+# merge sort
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return
+    # middle index = length of array divided by two, rounded down
+    mid = len(arr) // 2
+    # left array = everything to the left of the middle index
+    left = arr[:mid]
+    # right array = everything to the right of the middle index
+    right = arr[mid:]
 
-def main():
-    animeList = ["Honey and Clover", "Hinamatsuri", "Ping Pong the Animation", "White Album 2"]
-    random.shuffle(animeList)
+    merge_sort(left)
+    merge_sort(right)
 
-    n = len(animeList)
-    print(n)
-    for i in range(n-1):
-        for j in range(0, (n - i - 1)):
-            message = animeList[j] + " or " + animeList[j + 1] + "\n"
-            userChoice = input(message).upper()
-            if userChoice == "L":
-                animeList[j], animeList[j + 1] = animeList[j + 1], animeList[j]
-            elif userChoice == "R":
-                pass
-    # show top anime at the top rather than bottom
-    animeList.reverse()
-    for i in range(len(animeList)):
-        print(animeList[i])
+    merge_two_sorted_lists(left, right, arr)
 
-if __name__ == "__main__":
-    main()
+def merge_two_sorted_lists(a, b ,arr):
+    # len_a = length of left array
+    len_a = len(a)
+    # len_b = length of right array
+    len_b = len(b)
+    # initialize counters
+    # i = left index, j = right index, k = main index
+    i = j = k = 0
+
+    # while i < length of left array and j < length of right array
+    while i < len_a and j < len_b:
+        # display two choices
+        message = a[i] + " or " + b[j] + "\n"
+        userChoice = input(message).upper()
+        if userChoice == "L":
+        # if a[i] <= b[j]:
+            # main array index = left array dex
+            arr[k] = a[i]
+            # increase left array index
+            i += 1
+        elif userChoice == "R":
+            # main array index = right array index
+            arr[k] = b[j]
+            # increase right array index
+            j += 1
+        # increase main array index
+        k += 1
+
+    # stop when you reach the end of the list
+    while i < len_a:
+        arr[k] = a[i]
+        i+=1
+        k+=1
+
+    # stop when you reach the end of the list
+    while j < len_b:
+        arr[k] = b[j]
+        j+=1
+        k+=1
+
+if __name__ == '__main__':
+    test_cases = [
+        ["Hinamatsuri", "White Album 2", "Ping Pong", "Naruto", "Bleach", "Monogatari", "Vinland Saga",
+        "Mushoku Tensei", "Run With the Wind", "The Great Passage", "Fate Stay Night", "Eighty Six",
+        "Jujutsu Kaisen", "Clannad", "ODDTAXI"],
+    ]
+
+    for arr in test_cases:
+        merge_sort(arr)
+        print(arr)
